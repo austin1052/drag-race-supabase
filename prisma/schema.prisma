@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model app_user {
+  id           BigInt    @id(map: "user_pkey") @default(autoincrement())
+  created_at   DateTime? @default(now()) @db.Timestamptz(6)
+  email        String?   @db.VarChar
+  name         String?   @db.VarChar
+  display_name String?   @db.VarChar
+  team         team[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model draft_position {
+  id            BigInt    @id @default(autoincrement())
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  queen_id      BigInt
+  multiplier    Int
+  team_id       BigInt
+  position_name String?   @db.VarChar
+  queen         queen     @relation(fields: [queen_id], references: [id], onUpdate: NoAction)
+  team          team      @relation(fields: [team_id], references: [id], onUpdate: NoAction)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model episode {
+  created_at     DateTime? @default(now()) @db.Timestamptz(6)
+  season_id      String    @db.Uuid
+  episode_number BigInt
+  air_date       DateTime? @db.Date
+  air_date_time  DateTime? @db.Timestamptz(6)
+  name           String?   @db.VarChar
+  season         season    @relation(fields: [season_id], references: [id], onUpdate: NoAction)
+
+  @@id([season_id, episode_number])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model league {
+  id         BigInt    @id @default(autoincrement())
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  name       String?   @db.VarChar
+  banner_url String?   @db.VarChar
+  season_id  String    @db.Uuid
+  status     String?   @default("drafting") @db.VarChar
+  season     season    @relation(fields: [season_id], references: [id], onUpdate: NoAction)
+  team       team[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model prediction {
+  id          BigInt    @id @default(autoincrement())
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+  team_id     BigInt
+  question_id BigInt
+  guess       String    @db.VarChar
+  question    question  @relation(fields: [question_id], references: [id], onUpdate: NoAction)
+  team        team      @relation(fields: [team_id], references: [id], onUpdate: NoAction)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model queen {
+  id             BigInt           @id @default(autoincrement())
+  created_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  full_drag_name String           @db.VarChar
+  display_name   String           @db.VarChar
+  season_id      String           @db.Uuid
+  bio            Json?            @db.Json
+  draft_position draft_position[]
+  season         season           @relation(fields: [season_id], references: [id], onUpdate: NoAction)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model question {
+  id         BigInt       @id @default(autoincrement())
+  created_at DateTime?    @default(now()) @db.Timestamptz(6)
+  question   String
+  answer     String?      @db.VarChar
+  prediction prediction[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model season {
+  id         String    @id @db.Uuid
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+  name       String    @db.VarChar
+  pic_url    String?   @db.VarChar
+  episode    episode[]
+  league     league[]
+  queen      queen[]
+}
+
+model team {
+  id             BigInt           @id @default(autoincrement())
+  created_at     DateTime?        @default(now()) @db.Timestamptz(6)
+  manager_id     BigInt
+  league_id      BigInt?
+  name           String?          @db.VarChar
+  pic_url        String?          @db.VarChar
+  draft_position draft_position[]
+  prediction     prediction[]
+  league         league?          @relation(fields: [league_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
+  app_user       app_user         @relation(fields: [manager_id], references: [id], onUpdate: NoAction)
+}
