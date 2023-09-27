@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -31,15 +32,15 @@ model draft_position {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model episode {
-  created_at     DateTime? @default(now()) @db.Timestamptz(6)
-  season_id      String    @db.Uuid
-  episode_number BigInt
-  air_date       DateTime? @db.Date
-  air_date_time  DateTime? @db.Timestamptz(6)
-  name           String?   @db.VarChar
-  season         season    @relation(fields: [season_id], references: [id], onUpdate: NoAction)
-
-  @@id([season_id, episode_number])
+  created_at     DateTime?       @default(now()) @db.Timestamptz(6)
+  season_id      String          @db.Uuid
+  episode_number BigInt?
+  air_date       DateTime?       @db.Date
+  air_date_time  DateTime?       @db.Timestamptz(6)
+  name           String?         @db.VarChar
+  id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  season         season          @relation(fields: [season_id], references: [id], onUpdate: NoAction)
+  scoring_event  scoring_event[]
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
@@ -73,8 +74,10 @@ model queen {
   display_name   String           @db.VarChar
   season_id      String           @db.Uuid
   bio            Json?            @db.Json
+  active         Boolean?         @default(true)
   draft_position draft_position[]
   season         season           @relation(fields: [season_id], references: [id], onUpdate: NoAction)
+  scoring_event  scoring_event[]
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
@@ -88,7 +91,7 @@ model question {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model season {
-  id         String    @id @db.Uuid
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   created_at DateTime? @default(now()) @db.Timestamptz(6)
   name       String    @db.VarChar
   pic_url    String?   @db.VarChar
@@ -108,4 +111,29 @@ model team {
   prediction     prediction[]
   league         league?          @relation(fields: [league_id], references: [id], onDelete: Restrict, onUpdate: NoAction)
   app_user       app_user         @relation(fields: [manager_id], references: [id], onUpdate: NoAction)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model event_type {
+  id            Int             @id @default(autoincrement())
+  created_at    DateTime        @default(now()) @db.Timestamptz(6)
+  name          String          @db.VarChar
+  point_value   Int
+  scoring_event scoring_event[]
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model scoring_event {
+  id                 BigInt     @id @default(autoincrement())
+  created_at         DateTime   @default(now()) @db.Timestamptz(6)
+  event_type_id      Int
+  episode_id         String     @db.Uuid
+  queen_id           BigInt
+  event_display_name String?    @db.VarChar
+  event_subtitle     String?    @db.VarChar
+  episode            episode    @relation(fields: [episode_id], references: [id], onUpdate: NoAction)
+  event_type         event_type @relation(fields: [event_type_id], references: [id], onUpdate: NoAction)
+  queen              queen      @relation(fields: [queen_id], references: [id], onUpdate: NoAction)
 }
