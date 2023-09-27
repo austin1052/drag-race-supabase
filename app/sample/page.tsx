@@ -1,4 +1,7 @@
+'use client';
+
 import useSWR from "swr";
+import React, {useState} from "react";
 import {fetcher} from '@/utils/fetcher';
 
 export default function Page() {
