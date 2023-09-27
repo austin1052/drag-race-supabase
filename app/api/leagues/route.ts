@@ -12,7 +12,7 @@ export async function GET() {
   return NextResponse.json(leagues);
 }   
 
-export function getLeagues() {
+function getLeagues() {
   return prisma.league.findMany({
     include: { team: {
       include: { app_user: true }
