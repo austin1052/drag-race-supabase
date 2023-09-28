@@ -1,5 +1,3 @@
-insert into todos(title)
+insert into queens(id, full_drag_name, active)
 values
-  ('Create Supabase project'),
-  ('Create Next.js app from Supabase Starter template'),
-  ('Keep building cool stuff!');
+("alexismichelle", "Alexis Michelle", true);

@@ -1,7 +1,7 @@
 "use client";
 
-import { NavContextProvider } from "./context/NavContext";
-import Nav from "@/components/Nav";
+import { NavContextProvider } from "./_context/NavContext";
+import Nav from "@/app/_components/Nav";
 import { Session } from "@supabase/supabase-js";
 
 export default function App({
@@ -12,9 +12,11 @@ export default function App({
   session: Session | null;
 }) {
   return (
-    <NavContextProvider>
-      <Nav session={session} />
-      <main className="">{children}</main>
-    </NavContextProvider>
+    // <NavContextProvider>
+    <>
+      {/* <Nav session={session} /> */}
+      {/* <main className="">{children}</main> */}
+      {/* </NavContextProvider> */}
+    </>
   );
 }

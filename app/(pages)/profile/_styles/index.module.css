@@ -1,0 +1,19 @@
+/* this does not work in safari with styled components so is set here */
+/* try babel plugin */
+
+.backdrop {
+  background-color: var(--white-opaque);
+  webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.totalPoints {
+  webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+@media (prefers-color-scheme: dark) {
+  .backdrop {
+    background-color: var(--dark-opaque);
+  }
+}

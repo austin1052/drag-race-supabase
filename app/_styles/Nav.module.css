@@ -1,0 +1,247 @@
+.nav {
+  --button-font-size: 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem var(--margin-mobile) 1.25rem;
+  /* margin-bottom: 2.5rem; */
+  background-color: var(--white-opaque);
+  backdrop-filter: blur(5px) opacity(1);
+  border-bottom: 1px solid var(--black);
+  transform: translateY(-2px);
+  transition: 300ms;
+}
+
+.menuButton {
+  margin-left: auto;
+}
+
+.hidden {
+  transform: translateY(-110%);
+}
+
+.nav.top {
+  backdrop-filter: blur(4px) opacity(0);
+  background: none;
+}
+
+.navMenu {
+  --hero-delay: 1000ms;
+  position: fixed;
+  z-index: 80;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  background: var(--background-gradient-light);
+  opacity: 1;
+  transition: 400ms;
+  visibility: visible;
+}
+
+/* the z-index for the middle line in the nav menu is set inside of Nav.tsx */
+
+.navMenu.navMenuHidden {
+  opacity: 0;
+  visibility: hidden;
+  /* transition-delay: 300ms; */
+}
+
+.navMenu ul {
+  position: relative;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 8rem;
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.navMenu li {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: showLeft linear 300ms forwards 400ms;
+}
+
+.navMenu.navMenuHidden li {
+  /* transform: translateY(20px) rotate(-20deg); */
+  /* transition-delay: 0; */
+  opacity: 0;
+  visibility: hidden;
+}
+
+@keyframes bump {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  10% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(5deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes showLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(0px) translateY(20px) translateZ(-200px)
+      rotate3d(0, 1, 0, 200deg) rotate(40deg);
+  }
+
+  50% {
+    opacity: 0.2;
+    transform: translateX(-145px) translateY(10px) translateZ(-100px)
+      rotate3d(0, 1, 0, 290deg) rotate(40deg);
+  }
+
+  80% {
+    transform: translateX(-60px) translateY(4px) translateZ(-30px)
+      rotate3d(0, 1, 0, 335deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) translateZ(0px)
+      rotate3d(0, 1, 0, 360deg) rotate(0);
+  }
+}
+
+.logOutButton {
+  --button-font-size: 1.25rem;
+  position: absolute;
+  bottom: 3rem;
+}
+
+/* stop scrolling on body when nav menu is open */
+body:has(.navMenu:not(.navMenuHidden)) {
+  overflow: hidden;
+}
+
+.duck {
+  /* margin: 0 auto; */
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-53%);
+}
+
+.duck svg {
+  width: 50px;
+  height: 50px;
+  fill: var(--dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  .nav {
+    background-color: var(--dark-opaque);
+    border-color: var(--accent);
+    /* box-shadow: 0px 3px 20px 5px var(--dark); */
+  }
+
+  .navMenu {
+    background: var(--background-gradient-dark);
+  }
+
+  .duck svg {
+    fill: var(--accent);
+  }
+}
+
+/******** ANIMATIONS ********/
+
+.perspective {
+  perspective: 250px;
+}
+
+.hide {
+  animation: hide 300ms linear;
+  transform-origin: center;
+  transform-style: preserve-3d;
+}
+
+.show {
+  animation: show 300ms linear 200ms backwards, rotate 250ms ease-out 400ms;
+  transform-origin: center;
+  transform-style: preserve-3d;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  10% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(-3deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes hide {
+  0% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) translateZ(0px);
+  }
+
+  50% {
+    transform: translateX(130px) translateY(10px) translateZ(-90px)
+      rotate3d(0, 1, 0, 90deg);
+  }
+
+  80% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(0px) translateY(20px) translateZ(-180px)
+      rotate3d(0, 1, 0, 180deg);
+  }
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+    transform: translateX(0px) translateY(20px) translateZ(-180px)
+      rotate3d(0, 1, 0, 180deg);
+  }
+
+  25% {
+    opacity: 0.2;
+    transform: translateX(130px) translateY(10px) translateZ(-100px)
+      rotate3d(0, 1, 0, 90deg);
+  }
+
+  80% {
+    transform: translateX(20px) translateY(0px) translateZ(-20px)
+      rotate3d(0, 1, 0, 20deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateY(0) translateZ(0px);
+  }
+}
