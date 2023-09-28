@@ -7,11 +7,17 @@ import {fetcher} from '@/utils/fetcher';
 import { Box, Card, CardContent, CardHeader, Link, Typography } from '@mui/material';
 
 export default function Page() {
+    interface League {
+        id: number;
+        name: string;
+        banner_url: string;
+    }
+    // 
     const { 
         data: leagues, 
         error: leaguesError, 
         isLoading: leaguesIsLoading 
-    } = useSWR<any[]>('/api/leagues', fetcher);
+    } = useSWR<League[]>('/api/leagues', fetcher);
 
     if (leaguesIsLoading) return <div>Loading...</div>;
     if (leaguesError) return <pre>{leaguesError}</pre>;
