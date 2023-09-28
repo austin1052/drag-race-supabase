@@ -6,7 +6,6 @@ import { queenImages } from "@/test-data/images/images";
 import styles from "@/app/(pages)/profile/_styles/index.module.css";
 
 import styled, { keyframes } from "styled-components";
-import { Underline } from "../page";
 import { ProfileContext } from "@/app/_context/ProfileContext";
 
 const userTeams = ["premier", "ep. 1", "ep. 2"];
@@ -332,6 +331,31 @@ const TotalPointsContainer = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+`;
+
+export const Underline = styled.div`
+  width: 100%;
+  height: 1px;
+  border-radius: 100%;
+  background-color: var(--black);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0%,
+    var(--black) 20%,
+    var(--black) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+
+  @media (prefers-color-scheme: dark) {
+    background-color: var(--white);
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 0%,
+      var(--accent) 20%,
+      var(--accent) 80%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
 `;
 
 export default function Teams() {
