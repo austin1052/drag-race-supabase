@@ -4,7 +4,7 @@ import useSWR from "swr";
 import React, {useState} from "react";
 import Image from 'next/image'
 import {fetcher} from '@/utils/fetcher';
-import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, Link, Typography } from '@mui/material';
 
 export default function Page() {
     const { 
@@ -25,8 +25,9 @@ export default function Page() {
                 {leagues?.map((league) => {
                     console.log(league);
                     return (
+                        
                         <Card sx={{ width: 350}} key={league.id} style={{backgroundColor: 'lightgrey'}}>
-
+                            <Link href={`/league/${league.id}`}>
                             <CardContent>
                                 <Box alignItems="center">
                                     <Typography variant="h5" color="text.secondary" gutterBottom textAlign={"center"}>
@@ -41,8 +42,8 @@ export default function Page() {
                                         height={150}                    
                                     />
                                 </Box>
-
                             </CardContent>
+                            </Link>
                         </Card>
                     )
                 })}

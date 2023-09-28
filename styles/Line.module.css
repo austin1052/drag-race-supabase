@@ -3,7 +3,7 @@
   --time: 0s;
   width: 100%;
   position: fixed;
-  z-index: 10;
+  z-index: -10;
   top: 0;
   bottom: 0;
   left: 0;
