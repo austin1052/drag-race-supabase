@@ -3,9 +3,12 @@ import prisma from '@/prisma/client';
 import { QueenWithScore } from './types';
 
 export async function GET() {
-    const data = await getQueensWithScores()
-    if (!data) throw "No queens found.";
-    return NextResponse.json(data);
+    // const data = await getQueensWithScores()
+    // if (!data) throw "No queens found.";
+    // return NextResponse.json(data);
+
+    const testData: string[] = [];
+    return NextResponse.json(testData);
 }
 
 async function getQueensWithScores() {
