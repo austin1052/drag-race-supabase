@@ -26,7 +26,7 @@ const NavContainer = styled.div`
 `;
 // border-bottom: 1px solid var(--accent);
 
-export const Underline = styled.div`
+const Underline = styled.div`
   width: 100%;
   height: 1px;
   border-radius: 100%;
