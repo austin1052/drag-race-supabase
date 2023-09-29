@@ -74,6 +74,7 @@ export default function EpisodeTabs() {
             <EpisodeTab
               $active={team === activeTeam}
               onClick={(e) => handleActiveTeam(e)}
+              key={team}
             >
               {team}
             </EpisodeTab>

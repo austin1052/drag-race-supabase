@@ -1,0 +1,1 @@
+export const fetcher = (input: any, init: any) => fetch(input, init).then(res => res.json())
